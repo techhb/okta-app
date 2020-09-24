@@ -2,24 +2,35 @@ pipeline {
    agent any
 
    environment {
-       // use your actual issuer URL here and NOT the placeholder {yourOktaDomain} 
+       // use your actual issuer URL here and NOT the placeholder {yourOktaDomain}
        OKTA_OAUTH2_ISSUER           = 'https://dev-658088.okta.com/oauth2/default'
        OKTA_OAUTH2_CLIENT_ID        = credentials('OKTA_OAUTH2_CLIENT_ID')
        OKTA_OAUTH2_CLIENT_SECRET    = credentials('OKTA_OAUTH2_CLIENT_SECRET')
-      
+
    }
 
    stages {
+   stage('init') {
+      checkout scm
+   }
       stage('Build') {
          steps {
             // Get some code from a GitHub repository
             git 'https://github.com/techhb/okta-app.git'
 
             // Run Maven on a Unix agent.
-            sh "./mvnw -Dmaven.test.failure.ignore=true clean package"
+          //  sh "./mvnw -Dmaven.test.failure.ignore=true clean package"
 
             // To run Maven on a Windows agent, use
             // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+
+            sh '''
+         mvn -Dmaven.test.failure.ignore=true clean package
+         cd target
+         cp ../src/main/resources/web.config web.config
+         cp oktaapp-0.0.1-SNAPSHOT.jar app.jar
+         zip oktaapp.zip app.jar web.config
+      '''
          }
 
          post {
@@ -31,5 +42,10 @@ pipeline {
             }
          }
       }
+      stage('deploy') {
+     azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,
+     resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/todo.zip"
+  }
+
    }
 }
