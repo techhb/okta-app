@@ -33,10 +33,12 @@ pipeline {
          cd target
          cp ../src/main/resources/web.config web.config
          cp oktaapp-0.0.1-SNAPSHOT.jar app.jar
+         rm oktaapp-0.0.1-SNAPSHOT.jar
+         ls
 
       '''
         script{
-        zip  archive: true, glob: 'app.jar,web.config', zipFile: 'oktaapp.zip'
+        zip  archive: true, zipFile: 'oktaapp.zip'
 
         }
          }
@@ -53,7 +55,7 @@ pipeline {
       stage('deploy') {
       steps {
      azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,
-     resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/todo.zip"
+     resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/oktaapp.zip"
      }
   }
 
