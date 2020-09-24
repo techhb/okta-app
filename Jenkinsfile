@@ -38,7 +38,7 @@ pipeline {
 
       '''
         script{
-        zip  archive: true,dir: '../target', glob: 'app.jar,web.config', zipFile: 'oktaapp.zip'
+        zip  archive: true,dir: './target', glob: 'app.jar,web.config', zipFile: 'oktaapp.zip'
 
         }
          }
