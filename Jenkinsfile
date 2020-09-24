@@ -35,7 +35,6 @@ pipeline {
          cp oktaapp-0.0.1-SNAPSHOT.jar app.jar
          rm -rf oktaapp-0.0.1-SNAPSHOT.jar
          rm -rf /var/jenkins_home/workspace/okta-app/*.zip
-
       '''
         script{
         zip  archive: true,dir: './target', glob: 'app.jar,web.config', zipFile: 'oktaapp.zip'
@@ -52,12 +51,12 @@ pipeline {
             }
          }
       }
-      stage('deploy') {
-      steps {
-     azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,
-     resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/oktaapp.zip"
-     }
-  }
+  //    stage('deploy') {
+    //  steps {
+     //azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,
+     //resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/oktaapp.zip"
+     //}
+//  }
 
    }
 }
