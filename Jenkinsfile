@@ -33,12 +33,12 @@ pipeline {
          cd target
          cp ../src/main/resources/web.config web.config
          cp oktaapp-0.0.1-SNAPSHOT.jar app.jar
-         pwd
-         ls
+         rm -rf oktaapp-0.0.1-SNAPSHOT.jar
+         rm -rf /var/jenkins_home/workspace/okta-app/*.zip
 
       '''
         script{
-        zip  archive: true, glob: 'target/app.jar,target/web.config', zipFile: 'oktaapp.zip'
+        zip  archive: true,dir: '../target', glob: 'app.jar,web.config', zipFile: 'oktaapp.zip'
 
         }
          }
