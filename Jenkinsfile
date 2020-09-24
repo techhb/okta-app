@@ -1,7 +1,7 @@
 pipeline {
    agent any
    options {
-         timeout(time: 4, unit: 'MINUTES') 
+         timeout(time: 4, unit: 'MINUTES')
      }
    environment {
        // use your actual issuer URL here and NOT the placeholder {yourOktaDomain}
@@ -33,8 +33,12 @@ pipeline {
          cd target
          cp ../src/main/resources/web.config web.config
          cp oktaapp-0.0.1-SNAPSHOT.jar app.jar
-         zip oktaapp.zip app.jar web.config
+
       '''
+        script{
+        zip  app.jar web.config zipFile: oktaapp.zip,archive: true
+
+        }
          }
 
          post {
