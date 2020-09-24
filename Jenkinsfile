@@ -13,7 +13,7 @@ pipeline {
    stage('init') {
    steps {
    // Get some code from a GitHub repository
-   git 'https://github.com/techhb/okta-app.git'
+    git 'https://github.com/techhb/okta-app.git'
       }
    }
       stage('Build') {
@@ -27,7 +27,7 @@ pipeline {
             // bat "mvn -Dmaven.test.failure.ignore=true clean package"
 
             sh '''
-         mvn -Dmaven.test.failure.ignore=true clean package
+         ./mvnw -Dmaven.test.failure.ignore=true clean package
          cd target
          cp ../src/main/resources/web.config web.config
          cp oktaapp-0.0.1-SNAPSHOT.jar app.jar
