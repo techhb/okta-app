@@ -12,7 +12,7 @@ pipeline {
    }
 
    stages {
-   stage('init') {
+   stage('Init') {
    steps {
    // Get some code from a GitHub repository
     git 'https://github.com/techhb/okta-app.git'
@@ -51,12 +51,11 @@ pipeline {
             }
          }
       }
-  //    stage('deploy') {
-    //  steps {
-     //azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,
-     //resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/oktaapp.zip"
-     //}
-//  }
+      stage('Deploy') {
+      steps {
+     azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/oktaapp.zip"
+     }
+  }
 
    }
 }
