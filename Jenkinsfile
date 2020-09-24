@@ -11,12 +11,14 @@ pipeline {
 
    stages {
    stage('init') {
-      checkout scm
+   steps {
+   // Get some code from a GitHub repository
+   git 'https://github.com/techhb/okta-app.git'
+      }
    }
       stage('Build') {
          steps {
-            // Get some code from a GitHub repository
-            git 'https://github.com/techhb/okta-app.git'
+
 
             // Run Maven on a Unix agent.
           //  sh "./mvnw -Dmaven.test.failure.ignore=true clean package"
@@ -43,8 +45,10 @@ pipeline {
          }
       }
       stage('deploy') {
+      steps {
      azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,
      resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/todo.zip"
+     }
   }
 
    }
