@@ -1,8 +1,6 @@
 pipeline {
    agent any
-   //options {
-  //       timeout(time: 4, unit: 'MINUTES')
-  //   }
+
    environment {
        // use your actual issuer URL here and NOT the placeholder {yourOktaDomain}
        OKTA_OAUTH2_ISSUER           = 'https://dev-658088.okta.com/oauth2/default'
@@ -58,10 +56,11 @@ pipeline {
      azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/oktaapp.zip"
      }
   }
-  post {
-always {
-cleanWs()
-}
+      post {
+  always {
+    cleanWs()
+    }
 
    }
+}
 }
