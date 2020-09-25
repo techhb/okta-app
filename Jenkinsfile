@@ -55,12 +55,13 @@ pipeline {
       steps {
      azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/oktaapp.zip"
      }
-  }
-      post {
-  always {
-    cleanWs()
-    }
+     post {
+       always {
+         cleanWs()
+       }
 
-   }
+     }
+  }
+
 }
 }
