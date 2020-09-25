@@ -49,13 +49,19 @@ pipeline {
             //   junit '**/target/surefire-reports/TEST-*.xml'
               // archiveArtifacts 'target/*.jar'
             //}
+
         // }
+
       }
       stage('Deploy') {
       steps {
      azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,resourceGroup: env.RES_GROUP, appName: env.WEB_APP, filePath: "**/oktaapp.zip"
      }
   }
+  post {
+always {
+cleanWs()
+}
 
    }
 }
